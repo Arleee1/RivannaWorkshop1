@@ -19,6 +19,7 @@ DigitalOut rightTurnSignal(RIGHT_TURN_EN);
 bool fLeftSignal, fRightSignal, fHazards = false;
 
 void signalFlashHandler() {
+    //Updates lights based on can state variables
     while (true) {
         if (fHazards) {
             leftTurnSignal = !leftTurnSignal;
@@ -40,6 +41,7 @@ void signalFlashHandler() {
 
 
 void PowerAuxCANInterface::handle(ECUPowerAuxCommands *can_struct) {
+    //Gets info from can and sets variables
     can_struct->log(LOG_INFO);
 
     brake_lights = can_struct->brake_lights;
@@ -47,17 +49,6 @@ void PowerAuxCANInterface::handle(ECUPowerAuxCommands *can_struct) {
     fLeftSignal = can_struct->left_turn_signal;
     fRightSignal = can_struct->right_turn_signal;
     fHazards = can_struct->hazards;
-
-    signalFlashThread.flags_set(0x1);
-}
-void PowerAuxCANInterface::handle(ECUPowerAuxCommands *can_struct) {
-    can_struct->log(LOG_INFO);
-
-    brake_lights = can_struct->brake_lights;
-
-    flashLSignal = can_struct->left_turn_signal;
-    flashRSignal = can_struct->right_turn_signal;
-    flashHazards = can_struct->hazards;
 
     signalFlashThread.flags_set(0x1);
 }
