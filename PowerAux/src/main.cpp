@@ -29,7 +29,7 @@ void signalFlashHandler() {
         ThisThread::sleep_for(2000);
         fLeftSignal = false;
         fRightSignal = false;
-        ThisThread::sleep_for
+        ThisThread::sleep_for(2000);
     }
 }
 
