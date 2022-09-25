@@ -16,11 +16,15 @@ BPSCANInterface bps_can_interface(BMS_CAN1_RX, BMS_CAN1_TX, BMS_CAN1_STBY);
 DigitalOut leftTurnSignal(LEFT_TURN_EN);
 DigitalOut rightTurnSignal(RIGHT_TURN_EN);
 
-bool fLeftSignal, fRightSignal = false;
+bool fLeftSignal, fRightSignal, fHazards = false;
 
 void signalFlashHandler() {
     while (true) {
-        if (fLeftSignal) {
+        if (fHazards) {
+            leftTurnSignal = !leftTurnSignal;
+            rightTurnSignal = !rightTurnSignal;
+        }
+        else if (fLeftSignal) {
             leftTurnSignal = !leftTurnSignal;
             rightTurnSignal = false;
         }
@@ -42,7 +46,7 @@ void PowerAuxCANInterface::handle(ECUPowerAuxCommands *can_struct) {
 
     fLeftSignal = can_struct->left_turn_signal;
     fRightSignal = can_struct->right_turn_signal;
-    //flashHazards = can_struct->hazards;
+    fHazards = can_struct->hazards;
 
     signalFlashThread.flags_set(0x1);
 }
