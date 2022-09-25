@@ -31,9 +31,6 @@ void signalFlashHandler() {
             rightTurnSignal, leftTurnSignal = false;
         }
         ThisThread::sleep_for(2000);
-        fLeftSignal = false;
-        fRightSignal = false;
-        ThisThread::sleep_for
     }
 }
 
