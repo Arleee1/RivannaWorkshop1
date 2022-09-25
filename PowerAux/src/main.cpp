@@ -21,15 +21,16 @@ bool fLeftSignal, fRightSignal = false;
 void signalFlashHandler() {
     while (true) {
         if (fLeftSignal) {
-            fLeftSignal = true;
+            leftTurnSignal = !leftTurnSignal;
+            rightTurnSignal = false;
         }
-        if (fRightSignal) {
-            fRightSignal = true
+        else if (fRightSignal) {
+            rightTurnSignal = !rightTurnSignal;
+            leftTurnSignal = false;
+        } else {
+            rightTurnSignal, leftTurnSignal = false;
         }
         ThisThread::sleep_for(2000);
-        fLeftSignal = false;
-        fRightSignal = false;
-        ThisThread::sleep_for
     }
 }
 
